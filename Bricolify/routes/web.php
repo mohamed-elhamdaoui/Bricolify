@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WorkerProfileController;
 use App\Http\Controllers\ServiceRequestController;
@@ -8,27 +11,28 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ReviewController;
 
 // Public Routes
-Route::get('/', function () { return view('welcome'); })->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/', function () { return view('view'); }); // matches view.blade.php
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', function () { return view('auth.register'); })->name('register.view');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // Authenticated Routes
-
-
-    Route::get('/dashboard', function () { return view('admin.dashboard'); })->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/notifications', function () { return view('notifications'); })->name('notifications');
 
     // ==========================================
     // 1. CLIENT ROUTES
     // ==========================================
-    Route::middleware('can:is-client')->prefix('client')->name('client.')->group(function () {
-        // Blade View Prototypes
-        Route::get('/requests', function () { return view('client.requests.index'); })->name('requests.index');
-        Route::get('/requests/create', function () { return view('client.requests.create'); })->name('requests.create');
-        Route::get('/requests/show', function () { return view('client.requests.show'); })->name('requests.show');
+    Route::middleware('role:client')->prefix('client')->name('client.')->group(function () {
+        // Blade View Routes
+        Route::get('/requests', [ServiceRequestController::class, 'index'])->name('requests.index');
+        Route::get('/requests/create', [ServiceRequestController::class, 'create'])->name('requests.create');
+        Route::get('/requests/{serviceRequest}', [ServiceRequestController::class, 'show'])->name('requests.show');
         Route::get('/reviews/create', function () { return view('client.reviews.create'); })->name('reviews.create');
 
         // Form Actions
@@ -42,7 +46,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
     // ==========================================
     // 2. WORKER ROUTES
     // ==========================================
-    Route::middleware('can:is-worker')->prefix('worker')->name('worker.')->group(function () {
+    Route::middleware('role:worker')->prefix('worker')->name('worker.')->group(function () {
         // Blade View Prototypes
         Route::get('/requests', function () { return view('worker.requests.index'); })->name('requests.index');
         Route::get('/requests/show', function () { return view('worker.requests.show'); })->name('requests.show');
@@ -59,15 +63,27 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
     // ==========================================
     // 3. ADMIN ROUTES
     // ==========================================
-     
-        // Blade View Prototypes
-        Route::get('/dashboard', function () { return view('admin.dashboard'); })->name('dashboard.view');
-        Route::get('/workers', function () { return view('admin.workers.index'); })->name('workers.index');
-        Route::get('/categories', function () { return view('admin.categories.index'); })->name('categories.index');
-        Route::get('/skills', function () { return view('admin.skills.index'); })->name('skills.index');
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        // Workers
+        Route::get('/workers', [AdminController::class, 'workers'])->name('workers.index');
+
+        // Categories
+        Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
+        Route::get('/categories/create', [AdminController::class, 'createCategory'])->name('categories.create');
+        Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
+        Route::get('/categories/{category}/edit', [AdminController::class, 'editCategory'])->name('categories.edit');
+        Route::put('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
+        Route::delete('/categories/{category}', [AdminController::class, 'destroyCategory'])->name('categories.destroy');
+
+        // Skills
+        Route::get('/skills', [AdminController::class, 'skills'])->name('skills.index');
+        Route::get('/skills/create', [AdminController::class, 'createSkill'])->name('skills.create');
+        Route::post('/skills', [AdminController::class, 'storeSkill'])->name('skills.store');
+        Route::get('/skills/{skill}/edit', [AdminController::class, 'editSkill'])->name('skills.edit');
+        Route::put('/skills/{skill}', [AdminController::class, 'updateSkill'])->name('skills.update');
+        Route::delete('/skills/{skill}', [AdminController::class, 'destroySkill'])->name('skills.destroy');
 
         // Form Actions
         Route::post('/worker-profiles/{workerProfile}/validate', [WorkerProfileController::class, 'validateProfile'])->name('worker-profiles.validate');
-    
-
-
+    });
+});
