@@ -177,77 +177,25 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach($categories as $category)
                 <a href="#" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="relative z-10">
                         <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            {!! $category->icon_svg ?? '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>' !!}
                         </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-1">Electrical</h3>
-                        <p class="text-sm text-slate-500 mb-6 font-light">Wiring, outlets, lighting</p>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">{{ $category->name }}</h3>
+                        <p class="text-sm text-slate-500 mb-6 font-light">{{ $category->description ?? 'Expert services available' }}</p>
                         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
                             <div class="flex items-center gap-2">
                                 <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                                <span class="text-xs font-medium text-slate-600">42 available</span>
+                                <span class="text-xs font-medium text-slate-600">Available</span>
                             </div>
                             <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </div>
                 </a>
-
-                <a href="#" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-1">Plumbing</h3>
-                        <p class="text-sm text-slate-500 mb-6 font-light">Leaks, pipes, installations</p>
-                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-                            <div class="flex items-center gap-2">
-                                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                                <span class="text-xs font-medium text-slate-600">28 available</span>
-                            </div>
-                            <svg class="w-4 h-4 text-slate-300 group-hover:text-sky-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-1">Carpentry</h3>
-                        <p class="text-sm text-slate-500 mb-6 font-light">Furniture, doors, repairs</p>
-                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-                            <div class="flex items-center gap-2">
-                                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                                <span class="text-xs font-medium text-slate-600">15 available</span>
-                            </div>
-                            <svg class="w-4 h-4 text-slate-300 group-hover:text-amber-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-rose-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-1">Cleaning</h3>
-                        <p class="text-sm text-slate-500 mb-6 font-light">Deep clean, post-build</p>
-                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-                            <div class="flex items-center gap-2">
-                                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                                <span class="text-xs font-medium text-slate-600">56 available</span>
-                            </div>
-                            <svg class="w-4 h-4 text-slate-300 group-hover:text-rose-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </div>
-                    </div>
-                </a>
+                @endforeach
             </div>
         </div>
     </section>
@@ -376,29 +324,21 @@
                 </div>
 
                 <div class="space-y-4">
+                    @forelse($recentRequests as $request)
                     <div class="bg-white/5 p-5 rounded-2xl border border-white/5 hover:border-white/20 transition-all cursor-pointer group">
                         <div class="flex justify-between items-start mb-3">
-                            <h5 class="font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">Fix leaking sink pipe</h5>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-sky-500/10 border border-sky-500/20 text-sky-400 px-2 py-1 rounded-full">Plumbing</span>
+                            <h5 class="font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">{{ $request->title }}</h5>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-sky-500/10 border border-sky-500/20 text-sky-400 px-2 py-1 rounded-full">{{ $request->category->name ?? 'General' }}</span>
                         </div>
-                        <p class="text-sm text-slate-400 mb-4 font-light">Kitchen sink is leaking from the U-bend. Needs urgent repair before weekend.</p>
+                        <p class="text-sm text-slate-400 mb-4 font-light">{{ Str::limit($request->description, 80) }}</p>
                         <div class="flex justify-between items-center text-xs font-medium text-slate-500">
-                            <span>By Sarah M.</span>
-                            <span>Posted 5m ago</span>
+                            <span>By {{ $request->client->name ?? 'Client' }}</span>
+                            <span>{{ $request->created_at->diffForHumans() }}</span>
                         </div>
                     </div>
-
-                    <div class="bg-white/5 p-5 rounded-2xl border border-white/5 hover:border-white/20 transition-all cursor-pointer group">
-                        <div class="flex justify-between items-start mb-3">
-                            <h5 class="font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">Install 3 ceiling lights</h5>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 border border-amber-500/20 text-amber-400 px-2 py-1 rounded-full">Electrical</span>
-                        </div>
-                        <p class="text-sm text-slate-400 mb-4 font-light">Need a certified electrician to install fixtures in the living room.</p>
-                        <div class="flex justify-between items-center text-xs font-medium text-slate-500">
-                            <span>By Karim B.</span>
-                            <span>Posted 1hr ago</span>
-                        </div>
-                    </div>
+                    @empty
+                    <div class="text-slate-400 text-sm">No recent missions in your area.</div>
+                    @endforelse
                 </div>
             </div>
 
