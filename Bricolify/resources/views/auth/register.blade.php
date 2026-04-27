@@ -12,7 +12,7 @@
             </p>
         </div>
         
-        <form class="mt-8 space-y-6 relative z-10" action="#" method="POST">
+        <form class="mt-8 space-y-6 relative z-10" action="{{ route('register') }}" method="POST">
             @csrf
             
             <div class="space-y-4">
