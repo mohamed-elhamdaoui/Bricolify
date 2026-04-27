@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <section class="relative pt-32 pb-24 lg:pt-40 lg:pb-32 bg-slate-50 overflow-hidden">
@@ -43,11 +43,11 @@
 
                 <div class="mt-8 flex items-center gap-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                     <div class="flex items-center gap-2">
-                        <div class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">âœ“</div>
+                        <div class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">&check;</div>
                         Vetted Experts
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">â˜…</div>
+                        <div class="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">&#9733;</div>
                         Verified Reviews
                     </div>
                 </div>
@@ -289,7 +289,7 @@
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-100 to-indigo-50 flex items-center justify-center text-indigo-700 font-bold text-xl">4.9</div>
                         <div>
-                            <div class="flex text-amber-400 text-sm">â˜…â˜…â˜…â˜…â˜…</div>
+                            <div class="flex text-amber-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                             <div class="text-xs font-bold text-slate-900 mt-1">Average Pro Rating</div>
                         </div>
                     </div>
@@ -309,7 +309,7 @@
                         </div>
                         <div>
                             <div class="text-white font-bold text-sm">Identity Verified</div>
-                            <div class="text-slate-400 text-xs mt-1">National ID â€¢ Phone â€¢ Email</div>
+                            <div class="text-slate-400 text-xs mt-1">National ID &bull; Phone &bull; Email</div>
                         </div>
                     </div>
                 </div>
@@ -429,7 +429,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex text-amber-400 mb-6 text-sm">â˜…â˜…â˜…â˜…â˜…</div>
+                    <div class="flex text-amber-400 mb-6 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p class="text-slate-600 mb-8 font-light leading-relaxed">"Absolutely brilliant platform. My heater broke down on a weekend. I posted a request and within 10 minutes I had 3 quotes. The guy who came was professional."</p>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-indigo-50 flex items-center justify-center text-indigo-700 font-bold text-sm">Y</div>
@@ -441,7 +441,7 @@
                 </div>
 
                 <div class="bg-white p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex text-amber-400 mb-6 text-sm">â˜…â˜…â˜…â˜…â˜…</div>
+                    <div class="flex text-amber-400 mb-6 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p class="text-slate-600 mb-8 font-light leading-relaxed">"As a freelance carpenter, this app changed my life. I don't need to hunt for clients anymore. The dashboard is clean, and applying to jobs is seamless."</p>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center text-emerald-700 font-bold text-sm">A</div>
@@ -453,7 +453,7 @@
                 </div>
 
                 <div class="bg-white p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex text-amber-400 mb-6 text-sm">â˜…â˜…â˜…â˜…â˜…</div>
+                    <div class="flex text-amber-400 mb-6 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p class="text-slate-600 mb-8 font-light leading-relaxed">"The UI is so clean. No complicated menus. I just select 'Cleaning', write what I need, and wait. Seeing reviews before accepting gives total peace of mind."</p>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-100 to-rose-50 flex items-center justify-center text-rose-700 font-bold text-sm">N</div>
