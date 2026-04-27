@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/notifications', function () { return view('notifications'); })->name('notifications');
 
+
+    
     // ==========================================
     // 1. CLIENT ROUTES
     // ==========================================
