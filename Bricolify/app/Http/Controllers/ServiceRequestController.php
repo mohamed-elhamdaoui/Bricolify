@@ -5,14 +5,37 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreServiceRequestRequest;
 use App\Http\Requests\CancelServiceRequestRequest;
 use App\Http\Requests\UpdateServiceRequestStatusRequest;
-use App\Services\ServiceRequestService;
 use App\Models\ServiceRequest;
+use App\Models\Category;
+use App\Services\ServiceRequestService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class ServiceRequestController extends Controller
 {
+    public function index()
+    {
+        $requests = Auth::user()->serviceRequests()->latest()->get();
+        return view('client.requests.index', compact('requests'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('client.requests.create', compact('categories'));
+    }
+
+    public function show(ServiceRequest $serviceRequest)
+    {
+        if ($serviceRequest->client_id !== Auth::id()) {
+            abort(403);
+        }
+        
+        $serviceRequest->load(['category', 'applications.workerProfile.user', 'assignedWorker.user']);
+        
+        return view('client.requests.show', compact('serviceRequest'));
+    }
     public function store(StoreServiceRequestRequest $request, ServiceRequestService $service): RedirectResponse
     {
         try {
