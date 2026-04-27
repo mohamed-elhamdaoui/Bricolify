@@ -8,8 +8,8 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ReviewController;
 
 // Public Routes
-// Route::get('/', function () { return view('welcome'); })->name('home');
-Route::get('/', function () { return view('view'); }); // matches view.blade.php
+Route::get('/', function () { return view('welcome'); })->name('home');
+// Route::get('/', function () { return view('view'); }); // matches view.blade.php
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::get('/register', function () { return view('auth.register'); })->name('register.view');
