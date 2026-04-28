@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
     // 3. ADMIN ROUTES
     // ==========================================
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
-        
+
         // Workers
         Route::get('/workers', [AdminController::class, 'workers'])->name('workers.index');
 
@@ -89,3 +89,4 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/worker-profiles/{workerProfile}/validate', [WorkerProfileController::class, 'validateProfile'])->name('worker-profiles.validate');
     });
 });
+
