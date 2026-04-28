@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     // 3. ADMIN ROUTES
     // ==========================================
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        
         // Workers
         Route::get('/workers', [AdminController::class, 'workers'])->name('workers.index');
 
