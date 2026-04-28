@@ -2,13 +2,7 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-    <!-- Admin Navigation (Simulated) -->
-    <div class="flex items-center gap-6 mb-8 overflow-x-auto pb-4 border-b border-slate-200">
-        <a href="/admin/dashboard" class="text-sm font-medium text-slate-500 hover:text-slate-900 pb-4 whitespace-nowrap">Dashboard Overview</a>
-        <a href="/admin/workers" class="text-sm font-medium text-slate-500 hover:text-slate-900 pb-4 whitespace-nowrap">Worker Approvals</a>
-        <a href="/admin/categories" class="text-sm font-medium text-slate-500 hover:text-slate-900 pb-4 whitespace-nowrap">Categories</a>
-        <a href="/admin/skills" class="text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 pb-4 -mb-[17px] whitespace-nowrap">Skills Management</a>
-    </div>
+
 
     <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
