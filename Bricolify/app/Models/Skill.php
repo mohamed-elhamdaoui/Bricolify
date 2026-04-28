@@ -23,6 +23,6 @@ class Skill extends Model
 
     public function workerProfiles(): BelongsToMany
     {
-        return $this->belongsToMany(WorkerProfile::class, 'skill_worker_profile');
+        return $this->belongsToMany(WorkerProfile::class, 'worker_skill');
     }
 }
