@@ -35,7 +35,7 @@ class WorkerProfile extends Model
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Skill::class, 'skill_worker_profile');
+        return $this->belongsToMany(Skill::class, 'worker_skill');
     }
 
     public function applications(): HasMany
