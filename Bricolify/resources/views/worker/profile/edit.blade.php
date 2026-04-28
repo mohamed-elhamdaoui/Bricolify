@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
-<div class="max-w-3xl mx-auto px-6 lg:px-8 py-12">
+<div class="p-6 lg:p-8 max-w-4xl">
     <div class="mb-8">
         <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Edit Profile</h1>
         <p class="mt-2 text-sm text-slate-500 font-light">Update your professional information and skills.</p>
