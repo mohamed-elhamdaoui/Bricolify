@@ -109,3 +109,5 @@ class AdminController extends Controller
         return redirect()->route('admin.skills.index')->with('success', 'Skill deleted.');
     }
 }
+
+
