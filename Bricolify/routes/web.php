@@ -13,6 +13,9 @@ use App\Http\Controllers\ReviewController;
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [HomeController::class, 'categories'])->name('categories.index');
+Route::get('/workers', function () { return "Filtered workers coming soon"; })->name('workers.index');
+Route::get('/requests', [HomeController::class, 'requests'])->name('requests.index');
+Route::get('/about', function () { return view('about'); })->name('about');
 Route::get('/test', function () { return view('test'); }); // matches view.blade.php
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');

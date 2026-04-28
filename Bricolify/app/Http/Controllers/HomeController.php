@@ -39,4 +39,19 @@ class HomeController extends Controller
 
         return view('categories.index', compact('categories', 'stats'));
     }
+
+    public function requests(Request $request)
+    {
+        $categories = Category::all();
+        
+        $query = ServiceRequest::with(['category', 'client'])->where('status', 'pending');
+        
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        
+        $requests = $query->latest()->paginate(10);
+        
+        return view('requests.index', compact('categories', 'requests'));
+    }
 }
