@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Bricolify | Premium Home Services' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- AlpineJS for interactive components -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-[#fafafa] text-slate-900 font-sans antialiased selection:bg-indigo-500/20 selection:text-indigo-900 overflow-x-hidden flex flex-col min-h-screen">
 
