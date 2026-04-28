@@ -15,9 +15,9 @@
             <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Skills</h1>
             <p class="mt-2 text-sm text-slate-500 font-light">Manage granular skills assigned to workers and categories.</p>
         </div>
-        <button class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white transition-all bg-indigo-600 rounded-xl shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:bg-indigo-700 hover:-translate-y-0.5">
+        <a href="{{ route('admin.skills.create') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white transition-all bg-indigo-600 rounded-xl shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:bg-indigo-700 hover:-translate-y-0.5">
             + Add Skill
-        </button>
+        </a>
     </div>
 
     <div class="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden">
@@ -31,30 +31,23 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
+                @forelse($skills as $skill)
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-slate-900">Pipe Installation</td>
-                    <td class="px-6 py-4"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs">Plumbing</span></td>
-                    <td class="px-6 py-4">120</td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold">Edit</button>
+                    <td class="px-6 py-4 font-bold text-slate-900">{{ $skill->name }}</td>
+                    <td class="px-6 py-4"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs">{{ $skill->category->name ?? 'None' }}</span></td>
+                    <td class="px-6 py-4">{{ $skill->worker_profiles_count }}</td>
+                    <td class="px-6 py-4 text-right space-x-2">
+                        <a href="{{ route('admin.skills.edit', $skill) }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold inline-block">Edit</a>
+                        <form action="{{ route('admin.skills.destroy', $skill) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-rose-600 hover:text-rose-800 text-sm font-semibold" onclick="return confirm('Delete this skill?')">Delete</button>
+                        </form>
                     </td>
                 </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-slate-900">Leak Detection</td>
-                    <td class="px-6 py-4"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs">Plumbing</span></td>
-                    <td class="px-6 py-4">85</td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold">Edit</button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-slate-900">Circuit Wiring</td>
-                    <td class="px-6 py-4"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs">Electrical</span></td>
-                    <td class="px-6 py-4">64</td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold">Edit</button>
-                    </td>
-                </tr>
+                @empty
+                <tr><td colspan="4" class="px-6 py-4 text-center text-slate-500 font-light">No skills found.</td></tr>
+                @endforelse
             </tbody>
         </table>
     </div>
