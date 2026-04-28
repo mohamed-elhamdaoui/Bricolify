@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-6 lg:px-8 py-12">
+<div class="p-6 lg:p-8 max-w-5xl">
     <div class="bg-white rounded-[2.5rem] border border-slate-200/60 p-8 md:p-12 shadow-sm relative overflow-hidden">
         <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl z-0 pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
 
