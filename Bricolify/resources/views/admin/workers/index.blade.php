@@ -34,70 +34,42 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
+                    @forelse($workers as $worker)
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">M</div>
+                                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">{{ substr($worker->user->name, 0, 1) }}</div>
                                 <div>
-                                    <div class="font-bold text-slate-900">Mourad Said</div>
-                                    <div class="text-xs text-slate-400">mourad@example.com</div>
+                                    <div class="font-bold text-slate-900">{{ $worker->user->name }}</div>
+                                    <div class="text-xs text-slate-400">{{ $worker->user->email }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 font-mono text-xs">Oct 24, 2026</td>
+                        <td class="px-6 py-4 font-mono text-xs">{{ $worker->created_at->format('M d, Y') }}</td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">ID Uploaded</span>
                         </td>
                         <td class="px-6 py-4">
-                            <x-badge type="warning">Pending</x-badge>
+                            @if(!$worker->is_validated)
+                                <x-badge type="warning">Pending</x-badge>
+                            @else
+                                <x-badge type="success">Active</x-badge>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-right space-x-2">
-                            <button class="text-xs font-bold text-emerald-600 hover:bg-emerald-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-emerald-200">Approve</button>
-                            <button class="text-xs font-bold text-rose-600 hover:bg-rose-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-rose-200">Reject</button>
+                            @if(!$worker->is_validated)
+                            <form action="{{ route('admin.worker-profiles.validate', $worker) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-bold text-emerald-600 hover:bg-emerald-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-emerald-200">Approve</button>
+                            </form>
+                            @endif
                         </td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold text-xs">A</div>
-                                <div>
-                                    <div class="font-bold text-slate-900">Amine B.</div>
-                                    <div class="text-xs text-slate-400">amine@example.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 font-mono text-xs">Oct 23, 2026</td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center text-xs text-rose-600 bg-rose-50 px-2 py-1 rounded border border-rose-100">Missing ID</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <x-badge type="danger">Incomplete</x-badge>
-                        </td>
-                        <td class="px-6 py-4 text-right space-x-2">
-                            <button class="text-xs font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-indigo-200">Remind</button>
-                        </td>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-slate-500 font-light">No workers found.</td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name=Karim+B&background=6366f1&color=fff" class="w-8 h-8 rounded-full" alt="Worker">
-                                <div>
-                                    <div class="font-bold text-slate-900">Karim B.</div>
-                                    <div class="text-xs text-slate-400">karim@example.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 font-mono text-xs">Oct 20, 2026</td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">All Clear</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <x-badge type="success">Active</x-badge>
-                        </td>
-                        <td class="px-6 py-4 text-right space-x-2">
-                            <button class="text-xs font-bold text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-slate-200">Suspend</button>
-                        </td>
-                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
