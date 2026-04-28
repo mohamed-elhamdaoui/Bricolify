@@ -12,7 +12,8 @@ use App\Http\Controllers\ReviewController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Route::get('/', function () { return view('view'); }); // matches view.blade.php
+Route::get('/categories', [HomeController::class, 'categories'])->name('categories.index');
+Route::get('/test', function () { return view('test'); }); // matches view.blade.php
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
