@@ -38,7 +38,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
-            <p class="text-4xl font-black text-slate-900 relative z-10">128</p>
+            <p class="text-4xl font-black text-slate-900 relative z-10">{{ $stats['jobsDone'] ?? 0 }}</p>
         </div>
 
         <div class="bg-white/70 backdrop-blur-xl border border-white/90 rounded-[2rem] shadow-sm p-6 flex flex-col justify-between h-40 relative overflow-hidden group hover:border-indigo-200 transition-colors">
@@ -49,7 +49,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
-            <p class="text-4xl font-black text-slate-900 relative z-10">3</p>
+            <p class="text-4xl font-black text-slate-900 relative z-10">{{ $stats['pendingApps'] ?? 0 }}</p>
         </div>
         
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.15)] p-6 flex flex-col justify-between h-40 relative overflow-hidden group">
