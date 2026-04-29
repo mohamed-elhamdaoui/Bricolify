@@ -13,13 +13,13 @@ class HomeController extends Controller
     {
         $categories = Category::all();
 
-        $recentRequests = ServiceRequest::with(['category', 'client'])
+        $requests = ServiceRequest::with(['category', 'client'])
             ->where('status', 'pending')
             ->latest()
             ->take(5)
             ->get();
 
-        return view('welcome', compact('categories', 'recentRequests'));
+        return view('welcome', compact('categories', 'requests'));
     }
 
     public function categories()
