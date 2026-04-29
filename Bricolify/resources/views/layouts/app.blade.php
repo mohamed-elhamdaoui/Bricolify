@@ -39,24 +39,24 @@
                 <div class="col-span-1 md:col-span-2 md:col-start-7">
                     <h4 class="text-sm font-bold text-slate-900 mb-4">Platform</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">How it Works</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Browse Services</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Trust & Safety</a></li>
+                        <li><a href="{{ url('/') }}#how-it-works" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">How it Works</a></li>
+                        <li><a href="{{ route('categories.index') }}" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Browse Services</a></li>
+                        <li><a href="{{ url('/') }}#why-us" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Trust & Safety</a></li>
                     </ul>
                 </div>
 
                 <div class="col-span-1 md:col-span-2">
                     <h4 class="text-sm font-bold text-slate-900 mb-4">For Workers</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Apply as Pro</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Guidelines</a></li>
+                        <li><a href="{{ route('register.view', ['role' => 'worker']) }}" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Apply as Pro</a></li>
+                        <li><a href="{{ url('/') }}#how-it-works" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Guidelines</a></li>
                     </ul>
                 </div>
 
                 <div class="col-span-1 md:col-span-2">
                     <h4 class="text-sm font-bold text-slate-900 mb-4">Company</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">About Us</a></li>
+                        <li><a href="{{ route('about') }}" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">About Us</a></li>
                         <li><a href="#" class="text-sm text-slate-500 font-light hover:text-indigo-600 transition-colors">Terms of Service</a></li>
                     </ul>
                 </div>
