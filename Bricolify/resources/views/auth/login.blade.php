@@ -51,7 +51,7 @@
             <div class="text-center mt-4">
                 <p class="text-sm text-slate-500">
                     Don't have an account? 
-                    <a href="/register" class="font-bold text-indigo-600 hover:text-indigo-500">Sign up</a>
+                    <a href="{{ route('register.view') }}" class="font-bold text-indigo-600 hover:text-indigo-500">Sign up</a>
                 </p>
             </div>
         </form>
