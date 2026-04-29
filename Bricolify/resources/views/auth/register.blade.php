@@ -50,7 +50,7 @@
             <div class="text-center mt-4">
                 <p class="text-sm text-slate-500">
                     Already have an account? 
-                    <a href="/login" class="font-bold text-slate-900 hover:text-slate-700">Sign in</a>
+                    <a href="{{ route('login') }}" class="font-bold text-slate-900 hover:text-slate-700">Sign in</a>
                 </p>
             </div>
         </form>
