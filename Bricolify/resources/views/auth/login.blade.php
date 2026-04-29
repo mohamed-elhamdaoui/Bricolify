@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In — Bricolify</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12 antialiased">
+@extends('layouts.auth')
 
-    {{-- Background Orbs --}}
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/5 blur-[120px]"></div>
-        <div class="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-violet-500/5 blur-[120px]"></div>
-    </div>
-
-    {{-- Card --}}
-    <div class="relative z-10 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200/50 p-8 md:p-12 w-full max-w-md">
+@section('content')
+<div class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200/50 p-8 md:p-12 w-full max-w-md">
 
         {{-- Logo --}}
         <div class="flex items-center justify-center gap-3 mb-8">
@@ -86,5 +73,5 @@
         </div>
 
     </div>
-</body>
-</html>
+</div>
+@endsection
