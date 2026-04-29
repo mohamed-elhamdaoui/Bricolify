@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account — Bricolify</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12 antialiased">
+@extends('layouts.auth')
 
-    {{-- Background Orbs --}}
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/5 blur-[120px]"></div>
-        <div class="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-violet-500/5 blur-[120px]"></div>
-    </div>
-
-    {{-- Card --}}
-    <div class="relative z-10 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200/50 p-8 md:p-12 w-full max-w-md">
+@section('content')
+<div class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200/50 p-8 md:p-12 w-full max-w-md">
 
         {{-- Logo --}}
         <div class="flex items-center justify-center gap-3 mb-8">
@@ -40,6 +27,8 @@
         {{-- Form --}}
         <form action="{{ route('register') }}" method="POST" class="space-y-5">
             @csrf
+            {{-- Role defaults to client — user picks their path during onboarding --}}
+            <input type="hidden" name="role" value="client">
 
             {{-- Name --}}
             <div>
@@ -81,10 +70,7 @@
                 <label for="password_confirmation" class="block text-sm font-semibold text-slate-700 mb-1.5">Confirm Password</label>
                 <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
                        placeholder="Repeat your password"
-                       class="w-full px-4 py-3 rounded-xl border {{ $errors->has('password_confirmation') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-sm text-slate-700 transition-all">
-                @error('password_confirmation')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
+                       class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-sm text-slate-700 transition-all">
             </div>
 
             {{-- Submit --}}
@@ -105,5 +91,5 @@
         </div>
 
     </div>
-</body>
-</html>
+</div>
+@endsection
