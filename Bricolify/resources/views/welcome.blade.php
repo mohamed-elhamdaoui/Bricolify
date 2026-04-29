@@ -170,7 +170,7 @@
                     <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">Browse Services</h2>
                     <p class="text-lg text-slate-500 font-light">Find the right expert for every corner of your home.</p>
                 </div>
-                <a href="" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-full transition-colors">
+                <a href="{{ route('categories.index') }}" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-full transition-colors">
                     View all categories
                     <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </a>
@@ -178,7 +178,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($categories as $category)
-                <a href="#" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <a href="{{ route('workers.index', ['category' => $category->slug]) }}" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="relative z-10">
                         <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
@@ -196,6 +196,75 @@
                     </div>
                 </a>
                 @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Requests Section -->
+    <section id="latest-requests" class="py-24 lg:py-32 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <h2 class="text-xs font-bold text-indigo-600 tracking-widest uppercase mb-3">Live Marketplace</h2>
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">Latest Service Requests</h3>
+                    <p class="text-lg text-slate-500 font-light">See what people in your community are looking for right now.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('requests.index') }}" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 px-6 py-3 rounded-full transition-all">
+                        Browse all
+                        <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                    <a href="{{ route('login') }}" class="text-sm font-bold text-indigo-600 hover:text-indigo-700 underline decoration-indigo-200 underline-offset-4 transition-all">
+                        Post a request
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @forelse($requests as $request)
+                    <div class="group bg-white rounded-[2rem] border border-slate-200/60 p-8 shadow-[0_2px_15px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-6">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-50 text-[10px] font-bold text-slate-400 border border-slate-100">
+                                {{ $request->created_at->diffForHumans() }}
+                            </span>
+                        </div>
+
+                        <div class="mb-6">
+                            <span class="inline-flex items-center px-3 py-1 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] font-extrabold uppercase tracking-widest mb-4">
+                                {{ $request->category->name }}
+                            </span>
+                            <h4 class="text-xl font-extrabold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors line-clamp-1">
+                                {{ $request->title }}
+                            </h4>
+                            <p class="text-slate-500 text-sm font-light leading-relaxed line-clamp-2">
+                                {{ $request->description }}
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-6 border-t border-slate-50">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </div>
+                                <span class="text-sm font-bold text-slate-600">{{ $request->location }}</span>
+                            </div>
+                            <a href="{{ route('requests.index') }}" class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full py-20 bg-slate-50 rounded-[3rem] border border-dashed border-slate-200 flex flex-col items-center justify-center text-center px-6">
+                        <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-6 shadow-sm border border-slate-100">
+                            <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-extrabold text-slate-900 mb-2">No active requests yet</h4>
+                        <p class="text-slate-500 font-light max-w-sm mx-auto">Be the first one to post a request and get help from our verified pros!</p>
+                        <a href="{{ route('login') }}" class="mt-8 inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-slate-800 transition-all">
+                            Post a Request
+                        </a>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -324,7 +393,7 @@
                 </div>
 
                 <div class="space-y-4">
-                    @forelse($recentRequests as $request)
+                    @forelse($requests as $request)
                     <div class="bg-white/5 p-5 rounded-2xl border border-white/5 hover:border-white/20 transition-all cursor-pointer group">
                         <div class="flex justify-between items-start mb-3">
                             <h5 class="font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">{{ $request->title }}</h5>
