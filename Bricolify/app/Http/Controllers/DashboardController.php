@@ -13,12 +13,22 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->isClient()) {
-            return redirect()->route('client.requests.index');
+        if ($user->isWorker()) {
+            $stats = [
+                'rating' => 4.9, // Mocked for now
+                'jobsDone' => $user->applications()->where('applications.status', 'accepted')->count(),
+                'pendingApps' => $user->applications()->where('applications.status', 'pending')->count(),
+            ];
+            return view('worker.dashboard', compact('stats'));
         }
 
-        if ($user->isWorker()) {
-             return redirect()->route('worker.requests.index');
+        if ($user->isClient()) {
+            $stats = [
+                'activeRequests' => $user->serviceRequests()->whereIn('status', ['pending', 'in_progress'])->count(),
+                'completedMissions' => $user->serviceRequests()->where('status', 'completed')->count(),
+                'totalSpent' => 0, // Mocked
+            ];
+            return view('client.dashboard', compact('stats'));
         }
 
         if ($user->isAdmin()) {
