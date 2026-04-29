@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class);
     }
 
+    public function applications(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Application::class, WorkerProfile::class);
+    }
+
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'client_id');
