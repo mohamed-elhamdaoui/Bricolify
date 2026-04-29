@@ -6,9 +6,9 @@
         </div>
 
         <div class="hidden md:flex items-center space-x-1">
-            <a href="/#how-it-works" class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 rounded-full transition-all">How it Works</a>
-            <a href="/#services" class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 rounded-full transition-all">Services</a>
-            <a href="/#why-us" class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 rounded-full transition-all">Why Bricolify</a>
+            <a href="{{ url('/') }}#how-it-works" class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 rounded-full transition-all">How it Works</a>
+            <a href="{{ url('/') }}#services" class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 rounded-full transition-all">Services</a>
+            <a href="{{ url('/') }}#why-us" class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100/50 rounded-full transition-all">Why Bricolify</a>
         </div>
 
         <div class="flex items-center gap-3">
@@ -81,8 +81,8 @@
                     </div>
                 </div>
             @else
-                <a href="/login" class="hidden sm:block text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2">Sign In</a>
-                <a href="/register" class="relative inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white transition-all bg-slate-900 rounded-full shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] hover:bg-slate-800 hover:-translate-y-0.5">
+                <a href="{{ route('login') }}" class="hidden sm:block text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2">Sign In</a>
+                <a href="{{ route('register.view') }}" class="relative inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white transition-all bg-slate-900 rounded-full shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] hover:bg-slate-800 hover:-translate-y-0.5">
                     Get Started
                 </a>
             @endauth
