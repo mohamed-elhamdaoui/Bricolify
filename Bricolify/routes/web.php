@@ -16,14 +16,14 @@ Route::get('/categories', [HomeController::class, 'categories'])->name('categori
 Route::get('/workers', function () { return "Filtered workers coming soon"; })->name('workers.index');
 Route::get('/requests', [HomeController::class, 'requests'])->name('requests.index');
 Route::get('/about', function () { return view('about'); })->name('about');
-Route::get('/test', function () { 
+Route::get('/test', function () {
     $requests = \App\Models\ServiceRequest::with(['category', 'client'])
         ->where('status', 'pending')
         ->latest()
         ->take(3)
         ->get();
-    return view('test', compact('requests')); 
-}); // matches view.blade.php
+    return view('test', compact('requests'));
+});
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -36,6 +36,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/notifications', function () { return view('notifications'); })->name('notifications');
+
+    // ==========================================
+    // ONBOARDING ROUTES
+    // ==========================================
+    Route::get('/onboarding', function () { return view('onboarding.index'); })->name('onboarding');
+    Route::post('/onboarding/client', function () {
+        // User is already client by default — just redirect to dashboard
+        return redirect()->route('dashboard')->with('success', 'Welcome! Your client account is ready.');
+    })->name('onboarding.client');
+    Route::get('/onboarding/worker', function () {
+        $categories = \App\Models\Category::with('skills')->get();
+        return view('onboarding.worker', compact('categories'));
+    })->name('onboarding.worker.create');
+    Route::post('/onboarding/worker', [WorkerProfileController::class, 'store'])->name('onboarding.worker.store');
 
     // ==========================================
     // 1. CLIENT ROUTES
@@ -100,4 +114,3 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/worker-profiles/{workerProfile}/validate', [WorkerProfileController::class, 'validateProfile'])->name('worker-profiles.validate');
     });
 });
-
