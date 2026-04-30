@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function workers()
     {
-        $workers = WorkerProfile::with('user')->orderBy('is_validated')->latest()->get();
+        $workers = WorkerProfile::with(['user', 'skills'])->orderByRaw("status = 'pending' DESC")->latest()->get();
         return view('admin.workers.index', compact('workers'));
     }
 
