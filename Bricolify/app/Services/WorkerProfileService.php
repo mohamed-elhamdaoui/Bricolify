@@ -45,4 +45,11 @@ class WorkerProfileService
             'status' => 'suspended',
         ]);
     }
+
+    public function reinstateProfile(WorkerProfile $profile): void
+    {
+        $profile->update([
+            'status' => 'active',
+        ]);
+    }
 }
