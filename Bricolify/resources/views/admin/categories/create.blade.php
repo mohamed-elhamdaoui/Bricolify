@@ -14,15 +14,39 @@
     <div class="bg-white rounded-3xl border border-slate-200/60 p-8 shadow-sm">
         <form action="{{ route('admin.categories.store') }}" method="POST" class="space-y-6">
             @csrf
-            
+
+            {{-- Name --}}
             <div>
-                <label for="name" class="block text-sm font-bold text-slate-900 mb-2">Category Name</label>
-                <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-slate-200 text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder-slate-400" placeholder="e.g. Plumbing">
+                <label for="name" class="block text-sm font-bold text-slate-900 mb-2">Category Name <span class="text-red-500">*</span></label>
+                <input type="text" id="name" name="name" required value="{{ old('name') }}"
+                       class="w-full px-4 py-3 border {{ $errors->has('name') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder-slate-400"
+                       placeholder="e.g. Plumbing">
+                @error('name')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-xs text-slate-400 mt-1">The URL slug will be generated automatically from the name.</p>
             </div>
 
+            {{-- Icon --}}
+            <div>
+                <label for="icon" class="block text-sm font-bold text-slate-900 mb-2">Icon <span class="text-slate-400 font-normal">(emoji or icon class)</span></label>
+                <input type="text" id="icon" name="icon" value="{{ old('icon') }}"
+                       class="w-full px-4 py-3 border {{ $errors->has('icon') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder-slate-400"
+                       placeholder="e.g. 🔧 or wrench">
+                @error('icon')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Description --}}
             <div>
                 <label for="description" class="block text-sm font-bold text-slate-900 mb-2">Description</label>
-                <textarea id="description" name="description" rows="4" class="w-full px-4 py-3 border border-slate-200 text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder-slate-400 resize-none" placeholder="Description..."></textarea>
+                <textarea id="description" name="description" rows="4"
+                          class="w-full px-4 py-3 border {{ $errors->has('description') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder-slate-400 resize-none"
+                          placeholder="Short description of this category...">{{ old('description') }}</textarea>
+                @error('description')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="pt-4 flex items-center justify-end gap-4">
