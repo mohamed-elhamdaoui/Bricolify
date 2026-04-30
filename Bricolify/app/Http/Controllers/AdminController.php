@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\WorkerProfile;
 use App\Models\Category;
 use App\Models\Skill;
+use App\Services\WorkerProfileService;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -29,6 +30,24 @@ class AdminController extends Controller
     {
         $skills = Skill::with('category')->withCount('workerProfiles')->get();
         return view('admin.skills.index', compact('skills'));
+    }
+
+    public function suspendWorker(WorkerProfile $workerProfile, WorkerProfileService $profileService)
+    {
+        $user = auth()->user();
+        if (!$user->isAdmin()) abort(403);
+
+        $profileService->suspendProfile($workerProfile);
+        return back()->with('success', $workerProfile->user->name . ' has been suspended.');
+    }
+
+    public function reinstateWorker(WorkerProfile $workerProfile, WorkerProfileService $profileService)
+    {
+        $user = auth()->user();
+        if (!$user->isAdmin()) abort(403);
+
+        $profileService->reinstateProfile($workerProfile);
+        return back()->with('success', $workerProfile->user->name . ' has been reinstated.');
     }
 
     // --- Category CRUD ---
