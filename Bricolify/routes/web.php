@@ -112,5 +112,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Form Actions
         Route::post('/worker-profiles/{workerProfile}/validate', [WorkerProfileController::class, 'validateProfile'])->name('worker-profiles.validate');
+        Route::post('/worker-profiles/{workerProfile}/suspend', [AdminController::class, 'suspendWorker'])->name('worker-profiles.suspend');
+        Route::post('/worker-profiles/{workerProfile}/reinstate', [AdminController::class, 'reinstateWorker'])->name('worker-profiles.reinstate');
     });
 });
