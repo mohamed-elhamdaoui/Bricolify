@@ -14,15 +14,37 @@
         <form action="{{ route('admin.categories.update', $category) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
-            
+
+            {{-- Name --}}
             <div>
-                <label for="name" class="block text-sm font-bold text-slate-900 mb-2">Category Name</label>
-                <input type="text" id="name" name="name" value="{{ $category->name }}" required class="w-full px-4 py-3 border border-slate-200 text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder-slate-400">
+                <label for="name" class="block text-sm font-bold text-slate-900 mb-2">Category Name <span class="text-red-500">*</span></label>
+                <input type="text" id="name" name="name" required value="{{ old('name', $category->name) }}"
+                       class="w-full px-4 py-3 border {{ $errors->has('name') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium">
+                @error('name')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-xs text-slate-400 mt-1">Slug: <span class="font-mono">{{ $category->slug }}</span> — will be regenerated on save.</p>
             </div>
 
+            {{-- Icon --}}
+            <div>
+                <label for="icon" class="block text-sm font-bold text-slate-900 mb-2">Icon <span class="text-slate-400 font-normal">(emoji or icon class)</span></label>
+                <input type="text" id="icon" name="icon" value="{{ old('icon', $category->icon) }}"
+                       class="w-full px-4 py-3 border {{ $errors->has('icon') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder-slate-400"
+                       placeholder="e.g. 🔧 or wrench">
+                @error('icon')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Description --}}
             <div>
                 <label for="description" class="block text-sm font-bold text-slate-900 mb-2">Description</label>
-                <textarea id="description" name="description" rows="4" class="w-full px-4 py-3 border border-slate-200 text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder-slate-400 resize-none">{{ $category->description ?? '' }}</textarea>
+                <textarea id="description" name="description" rows="4"
+                          class="w-full px-4 py-3 border {{ $errors->has('description') ? 'border-red-400 bg-red-50' : 'border-slate-200' }} text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder-slate-400 resize-none">{{ old('description', $category->description) }}</textarea>
+                @error('description')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="pt-4 flex items-center justify-end gap-4">
