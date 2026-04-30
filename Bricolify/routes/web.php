@@ -103,7 +103,10 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/categories/{category}', [AdminController::class, 'destroyCategory'])->name('categories.destroy');
 
         // Skills
-        Route::get('/skills', [AdminController::class, 'skills'])->name('skills.index');
+        Route::get('/skills', function () {
+            // Skills are now managed inline on the categories page
+            return redirect()->route('admin.categories.index')->with('success', 'Manage skills directly within each category below.');
+        })->name('skills.index');
         Route::get('/skills/create', [AdminController::class, 'createSkill'])->name('skills.create');
         Route::post('/skills', [AdminController::class, 'storeSkill'])->name('skills.store');
         Route::get('/skills/{skill}/edit', [AdminController::class, 'editSkill'])->name('skills.edit');
