@@ -53,7 +53,8 @@
     </div>
 
 
-    <!-- Empty State / Recent Requests -->
+    {{-- Empty State — only when user has no requests at all --}}
+    @if(($stats['activeRequests'] ?? 0) === 0 && ($stats['completedMissions'] ?? 0) === 0)
     <div class="bg-white/60 backdrop-blur-xl border border-white/90 rounded-[2.5rem] shadow-sm p-12 flex flex-col items-center justify-center text-center">
         <div class="w-24 h-24 bg-white shadow-sm border border-slate-100 rounded-full flex items-center justify-center mb-6">
             <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>
@@ -64,6 +65,7 @@
             Create Your First Request
         </a>
     </div>
+    @endif
 
 </div>
 

@@ -14,12 +14,14 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         if ($user->isWorker()) {
+            $workerProfile = $user->workerProfile;
             $stats = [
-                'rating' => 4.9, // Mocked for now
-                'jobsDone' => $user->applications()->where('applications.status', 'accepted')->count(),
-                'pendingApps' => $user->applications()->where('applications.status', 'pending')->count(),
+                'rating'        => $workerProfile?->rating_average ?? 0,
+                'jobsDone'      => $user->applications()->where('applications.status', 'accepted')->count(),
+                'pendingApps'   => $user->applications()->where('applications.status', 'pending')->count(),
+                'profileStatus' => $workerProfile?->status ?? 'pending',
             ];
-            return view('worker.dashboard', compact('stats'));
+            return view('worker.dashboard', compact('stats', 'workerProfile'));
         }
 
         if ($user->isClient()) {
@@ -34,7 +36,7 @@ class DashboardController extends Controller
         if ($user->isAdmin()) {
             $totalUsers = User::count();
             $activeMissions = ServiceRequest::whereIn('status', ['pending', 'in_progress'])->count();
-            $pendingApprovals = WorkerProfile::where('is_validated', false)->count();
+            $pendingApprovals = WorkerProfile::where('status', 'pending')->count();
             $transactionVolume = 45000; // Mocked until transactions are fully implemented
             
             return view('admin.dashboard', compact('totalUsers', 'activeMissions', 'pendingApprovals', 'transactionVolume'));

@@ -8,8 +8,8 @@
             <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Notifications</h1>
             <p class="mt-2 text-base text-slate-500 font-light">Stay updated on your mission progress and applications.</p>
         </div>
-        @if(auth()->user()->notifications()->whereNull('read_at')->count() > 0)
-            <form action="#" method="POST">
+        @if(auth()->user()->unreadNotifications->count() > 0)
+            <form action="{{ route('notifications.mark-all-read') }}" method="POST">
                 @csrf
                 <button type="submit" class="text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-4 py-2 rounded-xl transition-all">
                     Mark all as read
@@ -43,14 +43,14 @@
                     <div class="flex-1 min-w-0">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                             <h4 class="text-base font-extrabold text-slate-900 truncate">
-                                {{ $notification->type }}
+                                {{ $notification->data['title'] ?? class_basename($notification->type) }}
                             </h4>
                             <span class="text-xs font-bold text-slate-400 whitespace-nowrap">
                                 {{ $notification->created_at->diffForHumans() }}
                             </span>
                         </div>
                         <p class="text-sm font-light text-slate-500 mt-1 leading-relaxed">
-                            {{ $notification->message }}
+                            {{ $notification->data['message'] ?? $notification->data['body'] ?? 'You have a new notification.' }}
                         </p>
                         
                         {{-- Action Link --}}
