@@ -16,7 +16,7 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="bg-white/70 backdrop-blur-xl border border-white/90 rounded-[2rem] shadow-sm p-6 flex flex-col justify-between h-40 relative overflow-hidden group hover:border-indigo-200 transition-colors">
             <div class="absolute -right-6 -top-6 w-24 h-24 bg-indigo-50/80 rounded-full group-hover:scale-[2] transition-transform duration-500 ease-out"></div>
             <div class="flex justify-between items-start relative z-10">
@@ -39,15 +39,15 @@
             <p class="text-4xl font-black text-slate-900 relative z-10">{{ $stats['completedMissions'] ?? 0 }}</p>
         </div>
 
-        <div class="bg-white/70 backdrop-blur-xl border border-white/90 rounded-[2rem] shadow-sm p-6 flex flex-col justify-between h-40 relative overflow-hidden group hover:border-amber-200 transition-colors">
-            <div class="absolute -right-6 -top-6 w-24 h-24 bg-amber-50/80 rounded-full group-hover:scale-[2] transition-transform duration-500 ease-out"></div>
+        <div class="bg-white/70 backdrop-blur-xl border border-white/90 rounded-[2rem] shadow-sm p-6 flex flex-col justify-between h-40 relative overflow-hidden group hover:border-violet-200 transition-colors">
+            <div class="absolute -right-6 -top-6 w-24 h-24 bg-violet-50/80 rounded-full group-hover:scale-[2] transition-transform duration-500 ease-out"></div>
             <div class="flex justify-between items-start relative z-10">
-                <p class="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Avg. Quotes</p>
-                <div class="w-10 h-10 rounded-xl bg-amber-100/50 flex items-center justify-center text-amber-500 shadow-sm border border-amber-200/50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <p class="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Total Requests</p>
+                <div class="w-10 h-10 rounded-xl bg-violet-100/50 flex items-center justify-center text-violet-500 shadow-sm border border-violet-200/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                 </div>
             </div>
-            <p class="text-4xl font-black text-slate-900 relative z-10">4.2</p>
+            <p class="text-4xl font-black text-slate-900 relative z-10">{{ ($stats['activeRequests'] ?? 0) + ($stats['completedMissions'] ?? 0) }}</p>
         </div>
         
     </div>
