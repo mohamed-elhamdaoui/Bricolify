@@ -40,7 +40,8 @@ class AdminController extends Controller
     public function storeCategory(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
+            'icon'        => 'nullable|string|max:50',
             'description' => 'nullable|string'
         ]);
         $data['slug'] = Str::slug($data['name']);
@@ -56,7 +57,8 @@ class AdminController extends Controller
     public function updateCategory(Request $request, Category $category)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
+            'icon'        => 'nullable|string|max:50',
             'description' => 'nullable|string'
         ]);
         $data['slug'] = Str::slug($data['name']);
