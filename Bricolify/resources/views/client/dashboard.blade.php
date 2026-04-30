@@ -50,22 +50,8 @@
             <p class="text-4xl font-black text-slate-900 relative z-10">4.2</p>
         </div>
         
-        <div class="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2rem] shadow-[0_8px_30px_rgb(79,70,229,0.2)] p-6 flex flex-col justify-between h-40 relative overflow-hidden group">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
-            <div class="relative z-10">
-                <h3 class="text-white font-extrabold text-sm tracking-wide">Premium Savings</h3>
-                <p class="text-indigo-100 text-[10px] uppercase tracking-wider font-bold mt-1">Platform Discount</p>
-            </div>
-            <div class="relative z-10">
-                <div class="flex justify-between items-end mb-2.5">
-                    <span class="text-white font-black text-2xl leading-none shadow-sm">-15%</span>
-                </div>
-                <div class="w-full bg-white/20 rounded-full h-2.5 overflow-hidden shadow-inner backdrop-blur-sm border border-white/10">
-                    <div class="bg-white h-2.5 rounded-full w-[75%] shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
-                </div>
-            </div>
-        </div>
     </div>
+
 
     <!-- Empty State / Recent Requests -->
     <div class="bg-white/60 backdrop-blur-xl border border-white/90 rounded-[2.5rem] shadow-sm p-12 flex flex-col items-center justify-center text-center">
