@@ -38,14 +38,6 @@
             </div>
         </div>
 
-        <!-- Stat Box 4 -->
-        <div class="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/90 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <div class="w-12 h-12 bg-sky-50/80 text-sky-600 rounded-2xl flex items-center justify-center mb-4 border border-sky-100/50 shadow-sm">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-            </div>
-            <div class="text-3xl font-extrabold text-slate-900">MAD {{ number_format($transactionVolume / 1000) }}k</div>
-            <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Est. Volume</div>
-        </div>
     </div>
 </div>
 @endsection
