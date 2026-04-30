@@ -110,13 +110,28 @@
                                     @csrf
                                     <button type="submit"
                                             class="text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-1.5 rounded-lg transition-colors">
-                                        Approve
+                                        ✓ Approve
                                     </button>
                                 </form>
+
                             @elseif($worker->status === 'active')
-                                <span class="text-xs text-slate-400 font-medium">Approved</span>
+                                <form action="{{ route('admin.worker-profiles.suspend', $worker) }}" method="POST" class="inline"
+                                      onsubmit="return confirm('Suspend {{ addslashes($worker->user->name) }}? They will lose access to jobs.')">
+                                    @csrf
+                                    <button type="submit"
+                                            class="text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 px-4 py-1.5 rounded-lg transition-colors">
+                                        ⊘ Suspend
+                                    </button>
+                                </form>
+
                             @elseif($worker->status === 'suspended')
-                                <span class="text-xs text-red-400 font-medium">Suspended</span>
+                                <form action="{{ route('admin.worker-profiles.reinstate', $worker) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit"
+                                            class="text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-4 py-1.5 rounded-lg transition-colors">
+                                        ↺ Reinstate
+                                    </button>
+                                </form>
                             @endif
                         </td>
 
