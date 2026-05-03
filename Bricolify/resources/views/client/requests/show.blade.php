@@ -128,13 +128,13 @@
                     @csrf
                     <div>
                         <label class="block text-sm font-bold text-slate-900 mb-2">Rating</label>
-                        <div class="flex gap-2">
+                        <div class="flex gap-1" id="star-rating-container">
                             @for($i = 1; $i <= 5; $i++)
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="rating" value="{{ $i }}" class="peer sr-only" {{ $i == 5 ? 'checked' : '' }}>
-                                    <span class="text-2xl text-slate-300 peer-checked:text-amber-400 transition-colors">★</span>
-                                </label>
+                                <button type="button" data-rating="{{ $i }}" class="star-btn text-3xl text-slate-200 hover:text-amber-300 transition-all duration-200 focus:outline-none">
+                                    ★
+                                </button>
                             @endfor
+                            <input type="hidden" name="rating" id="rating-input" value="5" required>
                         </div>
                     </div>
                     <div>
@@ -179,7 +179,6 @@
                         <div class="text-right">
                         </div>
                     </div>
-                    <p class="text-sm text-slate-500 font-light line-clamp-2">{{ $application->cover_message }}</p>
 
                     @if($serviceRequest->isPending() && !$serviceRequest->isCancelled())
                     <div class="flex gap-2 mt-4" onclick="event.stopPropagation();">
@@ -245,12 +244,6 @@
                             </div>
                             @endif
 
-                            <!-- This Application -->
-                            <div class="mb-6 p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
-                                <h5 class="text-sm font-bold text-indigo-900 mb-2">Their Application</h5>
-                                <p class="text-sm text-indigo-600">{{ $application->cover_message }}</p>
-                            </div>
-
                             <!-- Reviews -->
                             @if($application->workerProfile->reviews && $application->workerProfile->reviews->count() > 0)
                             <div>
@@ -307,4 +300,45 @@
 
     </div>
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star-btn');
+        const ratingInput = document.getElementById('rating-input');
+        let currentRating = 5;
+
+        function updateStars(rating) {
+            stars.forEach(star => {
+                const starRating = parseInt(star.getAttribute('data-rating'));
+                if (starRating <= rating) {
+                    star.classList.remove('text-slate-200');
+                    star.classList.add('text-amber-400', 'scale-110');
+                } else {
+                    star.classList.remove('text-amber-400', 'scale-110');
+                    star.classList.add('text-slate-200');
+                }
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                updateStars(parseInt(star.getAttribute('data-rating')));
+            });
+
+            star.addEventListener('mouseout', () => {
+                updateStars(currentRating);
+            });
+
+            star.addEventListener('click', () => {
+                currentRating = parseInt(star.getAttribute('data-rating'));
+                ratingInput.value = currentRating;
+                updateStars(currentRating);
+            });
+        });
+
+        // Initialize
+        updateStars(currentRating);
+    });
+</script>
+@endpush
 @endsection
