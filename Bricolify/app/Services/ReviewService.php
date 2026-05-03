@@ -2,39 +2,34 @@
 
 namespace App\Services;
 
-use App\DTOs\CreateReviewDTO;
 use App\Models\Review;
 use App\Models\ServiceRequest;
 use App\Models\WorkerProfile;
-use Illuminate\Support\Facades\DB;
-use Exception;
 
 class ReviewService
 {
-    public function createReview(CreateReviewDTO $dto): Review
+    public function createReview($serviceRequestId, $clientId, $workerProfileId, $rating, $comment)
     {
-        return DB::transaction(function () use ($dto) {
-            $serviceRequest = ServiceRequest::findOrFail($dto->serviceRequestId);
+        $serviceRequest = ServiceRequest::findOrFail($serviceRequestId);
 
-            if (!$serviceRequest->isCompleted()) {
-                throw new Exception('يمكنك فقط تقييم الخدمات المكتملة.');
-            }
+        if (!$serviceRequest->isCompleted()) {
+            return back()->with('error', 'You can only review completed services.');
+        }
 
-            $review = Review::create([
-                'service_request_id' => $dto->serviceRequestId,
-                'client_id'          => $dto->clientId,
-                'worker_profile_id'  => $dto->workerProfileId,
-                'rating'             => $dto->rating,
-                'comment'            => $dto->comment,
-            ]);
+        $review = Review::create([
+            'service_request_id' => $serviceRequestId,
+            'client_id'          => $clientId,
+            'worker_profile_id'  => $workerProfileId,
+            'rating'             => $rating,
+            'comment'            => $comment,
+        ]);
 
-            $this->recalculateWorkerRating($dto->workerProfileId);
+        $this->recalculateWorkerRating($workerProfileId);
 
-            return $review;
-        });
+        return $review;
     }
 
-    private function recalculateWorkerRating(int $workerProfileId): void
+    private function recalculateWorkerRating($workerProfileId)
     {
         $worker = WorkerProfile::findOrFail($workerProfileId);
 
