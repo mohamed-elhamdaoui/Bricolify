@@ -6,6 +6,9 @@ use App\Services\ApplicationService;
 use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Requests\UpdateApplicationRequest;
+
 class ApplicationController extends Controller
 {
     public function index()
@@ -20,7 +23,7 @@ class ApplicationController extends Controller
         return view('worker.applications.index', compact('applications'));
     }
 
-    public function store(ApplicationService $service, $serviceRequestId)
+    public function store(StoreApplicationRequest $request, ApplicationService $service, $serviceRequestId)
     {
         $workerProfile = Auth::user()->workerProfile;
 
@@ -28,10 +31,12 @@ class ApplicationController extends Controller
             return redirect()->route('onboarding.worker.create')->with('error', 'Please complete your worker profile before applying for jobs.');
         }
 
-        $workerProfileId = $workerProfile->id;
-        $coverMessage = request('cover_message');
+        $validated = $request->validated();
 
-        $service->submitApplication($serviceRequestId, $workerProfileId, $coverMessage);
+        $service->submitApplication(
+            $serviceRequestId,
+            $workerProfile->id
+        );
 
         return back()->with('success', 'Application submitted successfully!');
     }
@@ -67,7 +72,7 @@ class ApplicationController extends Controller
         return view('worker.applications.edit', compact('application'));
     }
 
-    public function update(Application $application, ApplicationService $service)
+    public function update(Application $application, UpdateApplicationRequest $request, ApplicationService $service)
     {
         if ($application->workerProfile->user_id !== Auth::id()) {
             abort(403);
@@ -77,7 +82,12 @@ class ApplicationController extends Controller
             return back()->with('error', 'You can only edit pending applications.');
         }
 
-        $service->updateApplication($application, request('cover_message'));
+        $validated = $request->validated();
+
+        $service->updateApplication(
+            $application
+        );
+
         return back()->with('success', 'Application updated successfully.');
     }
 }
