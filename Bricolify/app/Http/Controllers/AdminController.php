@@ -21,8 +21,10 @@ class AdminController extends Controller
     {
         $categories = Category::withCount(['serviceRequests as active_missions_count' => function ($query) {
             $query->whereIn('status', ['pending', 'in_progress']);
+        }])->with(['skills' => function ($query) {
+            $query->withCount('workerProfiles');
         }])->get();
-        
+
         return view('admin.categories.index', compact('categories'));
     }
 
