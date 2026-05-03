@@ -67,6 +67,31 @@
     </div>
     @endif
 
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a href="{{ route('client.requests.index') }}"
+           class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-indigo-200 hover:shadow-sm transition-all group">
+            <div class="w-11 h-11 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            </div>
+            <div>
+                <p class="font-extrabold text-slate-900 text-sm">My Requests</p>
+                <p class="text-xs text-slate-400 font-light">View all requests</p>
+            </div>
+        </a>
+
+        <a href="{{ route('client.requests.create') }}"
+           class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-emerald-200 hover:shadow-sm transition-all group">
+            <div class="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            </div>
+            <div>
+                <p class="font-extrabold text-slate-900 text-sm">Post Request</p>
+                <p class="text-xs text-slate-400 font-light">Create new job</p>
+            </div>
+        </a>
+    </div>
+
 </div>
 
 <style>
