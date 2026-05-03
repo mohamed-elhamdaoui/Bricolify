@@ -19,7 +19,9 @@ class MarketplaceController extends Controller
         
         // Filter out jobs worker has already applied to
         if (Auth::check() && Auth::user()->isWorker()) {
-            $workerProfileId = Auth::user()->workerProfile->id ?? null;
+            $workerProfile = Auth::user()->workerProfile;
+            $workerProfileId = $workerProfile?->id ?? null;
+            
             if ($workerProfileId) {
                 $appliedRequestIds = Application::where('worker_profile_id', $workerProfileId)
                     ->pluck('service_request_id')
@@ -60,7 +62,7 @@ class MarketplaceController extends Controller
         
         $hasApplied = false;
         if (Auth::check() && Auth::user()->isWorker()) {
-            $workerProfileId = Auth::user()->workerProfile->id ?? null;
+            $workerProfileId = Auth::user()->workerProfile?->id;
             if ($workerProfileId) {
                 $hasApplied = Application::where('service_request_id', $serviceRequest->id)
                     ->where('worker_profile_id', $workerProfileId)
