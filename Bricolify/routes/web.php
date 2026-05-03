@@ -9,21 +9,17 @@ use App\Http\Controllers\WorkerProfileController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MarketplaceController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [HomeController::class, 'categories'])->name('categories.index');
 Route::get('/workers', function () { return "Filtered workers coming soon"; })->name('workers.index');
-Route::get('/requests', [HomeController::class, 'requests'])->name('requests.index');
+Route::get('/requests', [MarketplaceController::class, 'index'])->name('requests.index');
+Route::get('/requests/{serviceRequest}', [MarketplaceController::class, 'show'])->name('requests.show');
 Route::get('/about', function () { return view('about'); })->name('about');
-Route::get('/test', function () {
-    $requests = \App\Models\ServiceRequest::with(['category', 'client'])
-        ->where('status', 'pending')
-        ->latest()
-        ->take(3)
-        ->get();
-    return view('test', compact('requests'));
-});
+
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -35,11 +31,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/notifications', function () { return view('notifications'); })->name('notifications');
-    Route::post('/notifications/mark-all-read', function () {
-        auth()->user()->unreadNotifications->markAsRead();
-        return back()->with('success', 'All notifications marked as read.');
-    })->name('notifications.mark-all-read');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
     // ==========================================
     // ONBOARDING ROUTES
@@ -62,14 +57,18 @@ Route::middleware(['auth'])->group(function () {
         // Blade View Routes
         Route::get('/requests', [ServiceRequestController::class, 'index'])->name('requests.index');
         Route::get('/requests/create', [ServiceRequestController::class, 'create'])->name('requests.create');
+        Route::get('/requests/{serviceRequest}/edit', [ServiceRequestController::class, 'edit'])->name('requests.edit');
         Route::get('/requests/{serviceRequest}', [ServiceRequestController::class, 'show'])->name('requests.show');
         Route::get('/reviews/create', function () { return view('client.reviews.create'); })->name('reviews.create');
 
         // Form Actions
         Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('service-requests.store');
+        Route::put('/service-requests/{serviceRequest}', [ServiceRequestController::class, 'update'])->name('service-requests.update');
+        Route::delete('/service-requests/{serviceRequest}', [ServiceRequestController::class, 'destroy'])->name('service-requests.destroy');
         Route::post('/service-requests/{serviceRequest}/cancel', [ServiceRequestController::class, 'cancel'])->name('service-requests.cancel');
         Route::post('/service-requests/{serviceRequest}/status', [ServiceRequestController::class, 'updateStatus'])->name('service-requests.status');
         Route::post('/applications/{application}/accept', [ApplicationController::class, 'accept'])->name('applications.accept');
+        Route::post('/applications/{application}/refuse', [ApplicationController::class, 'refuse'])->name('applications.refuse');
         Route::post('/service-requests/{serviceRequest}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     });
 
@@ -78,16 +77,19 @@ Route::middleware(['auth'])->group(function () {
     // ==========================================
     Route::middleware('role:worker')->prefix('worker')->name('worker.')->group(function () {
         // Blade View Prototypes
-        Route::get('/requests', function () { return view('worker.requests.index'); })->name('requests.index');
-        Route::get('/requests/show', function () { return view('worker.requests.show'); })->name('requests.show');
-        Route::get('/applications', function () { return view('worker.applications.index'); })->name('applications.index');
+        Route::get('/requests', [MarketplaceController::class, 'index'])->name('requests.index');
+        Route::get('/requests/{serviceRequest}', [MarketplaceController::class, 'show'])->name('requests.show');
+        Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
         Route::get('/profile/show', function () { return view('worker.profile.show'); })->name('profile.show');
         Route::get('/profile/edit', function () { return view('worker.profile.edit'); })->name('profile.edit');
 
         // Form Actions
         Route::post('/profile', [WorkerProfileController::class, 'store'])->name('profile.store');
         Route::post('/service-requests/{serviceRequest}/apply', [ApplicationController::class, 'store'])->name('applications.store');
+        Route::get('/applications/{application}/edit', [ApplicationController::class, 'edit'])->name('applications.edit');
+        Route::put('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
         Route::post('/applications/{application}/cancel', [ApplicationController::class, 'cancel'])->name('applications.cancel');
+        Route::post('/service-requests/{serviceRequest}/status', [ServiceRequestController::class, 'updateStatus'])->name('service-requests.status');
     });
 
     // ==========================================
