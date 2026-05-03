@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterUserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class AuthController extends Controller
 {
-    public function login(Request $request): RedirectResponse
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -28,7 +25,7 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -36,16 +33,18 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function register(RegisterUserRequest $request, UserService $userService): RedirectResponse
+    public function register(UserService $userService)
     {
-        try {
-            $user = $userService->registerUser($request->toDTO());
+        $user = $userService->registerUser(
+            request('name'),
+            request('email'),
+            request('password'),
+            request('role'),
+            request('phone')
+        );
 
-            Auth::login($user);
+        Auth::login($user);
 
-            return redirect()->route('home')->with('success', 'Registration successful!');
-        } catch (Exception $e) {
-            return back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
-        }
+        return redirect()->route('onboarding')->with('success', 'Welcome to Bricolify! Choose how you want to use the platform.');
     }
 }
