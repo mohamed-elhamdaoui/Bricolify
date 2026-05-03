@@ -67,10 +67,6 @@
                     <svg class="w-5 h-5 mr-3 {{ request()->routeIs('admin.categories.*') ? 'text-indigo-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                     Manage Categories
                 </a>
-                <a href="{{ route('admin.skills.index') }}" class="flex items-center px-3 py-2.5 text-sm font-bold rounded-xl transition-all {{ request()->routeIs('admin.skills.*') ? 'bg-indigo-50/80 text-indigo-600' : 'text-slate-500 hover:bg-white/60 hover:text-slate-900' }}">
-                    <svg class="w-5 h-5 mr-3 {{ request()->routeIs('admin.skills.*') ? 'text-indigo-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    Manage Skills
-                </a>
             @endif
         </nav>
     </aside>
@@ -88,13 +84,59 @@
 
             <!-- Right Profile / Notifications -->
             <div class="flex items-center gap-4">
-                <a href="{{ route('notifications') }}" class="text-slate-400 hover:text-indigo-600 transition-colors bg-white/50 p-2 rounded-xl border border-white/60 shadow-sm relative">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                </a>
                 
+                <!-- Notifications Dropdown -->
+                <div class="relative" x-data="{ notifOpen: false }">
+                    <button @click="notifOpen = !notifOpen" class="text-slate-400 hover:text-indigo-600 transition-colors bg-white/50 p-2 rounded-xl border border-white/60 shadow-sm relative">
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <div class="absolute w-2 h-2 rounded-full bg-indigo-500 top-0 right-0 shadow-[0_0_8px_rgba(99,102,241,0.6)] animate-pulse"></div>
+                        @endif
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    </button>
+                    
+                    <div x-show="notifOpen" @click.away="notifOpen = false" style="display: none;" 
+                         x-transition:enter="transition ease-out duration-200" 
+                         x-transition:enter-start="opacity-0 scale-95 translate-y-2" 
+                         x-transition:enter-end="opacity-100 scale-100 translate-y-0" 
+                         x-transition:leave="transition ease-in duration-150" 
+                         x-transition:leave-start="opacity-100 scale-100 translate-y-0" 
+                         x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                         class="absolute right-0 mt-3 w-80 bg-white/90 backdrop-blur-2xl rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white p-3 z-50">
+                        <div class="flex items-center justify-between px-2 pb-2 mb-2 border-b border-slate-100">
+                            <span class="text-sm font-extrabold text-slate-900">Notifications</span>
+                            @if(auth()->user()->unreadNotifications->count() > 0)
+                                <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">{{ auth()->user()->unreadNotifications->count() }} New</span>
+                            @endif
+                        </div>
+                        <div class="space-y-1 max-h-64 overflow-y-auto custom-scrollbar">
+                            @forelse(auth()->user()->unreadNotifications->take(5) as $notification)
+                                <div class="flex gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer group relative">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0 border border-indigo-100">
+                                        @if(str_contains(strtolower($notification->type), 'application'))
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        @else
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                        @endif
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{{ $notification->type }}</p>
+                                        <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5">{{ $notification->message }}</p>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="text-center py-4">
+                                    <p class="text-xs text-slate-400 font-medium">No new notifications</p>
+                                </div>
+                            @endforelse
+                        </div>
+                        <a href="{{ route('notifications') }}" class="block text-center text-xs font-bold text-indigo-600 mt-2 pt-2 border-t border-slate-100 hover:text-indigo-700">View All</a>
+                    </div>
+                </div>
+                
+                <!-- Profile Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center gap-2 bg-white/50 border border-white/60 p-1 pr-3 rounded-xl shadow-sm hover:bg-white/80 transition-all">
-                        <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm">
+                        <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
                             {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
                         </div>
                         <div class="text-left hidden md:block">
@@ -104,10 +146,18 @@
                         <svg class="w-4 h-4 text-slate-400 ml-1 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <!-- Dropdown menu -->
-                    <div x-show="open" @click.away="open = false" style="display: none;" class="absolute right-0 mt-2 w-48 bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/90 py-2 z-50">
+                    <div x-show="open" @click.away="open = false" style="display: none;" 
+                         x-transition:enter="transition ease-out duration-200" 
+                         x-transition:enter-start="opacity-0 scale-95 translate-y-2" 
+                         x-transition:enter-end="opacity-100 scale-100 translate-y-0" 
+                         x-transition:leave="transition ease-in duration-150" 
+                         x-transition:leave-start="opacity-100 scale-100 translate-y-0" 
+                         x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                         class="absolute right-0 mt-3 w-48 bg-white/90 backdrop-blur-2xl rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white py-2 z-50">
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-sm font-bold text-rose-600 hover:bg-rose-50 transition-colors">
+                            <button type="submit" class="w-full flex items-center px-4 py-2.5 text-sm font-bold text-rose-600 hover:bg-rose-50 transition-colors">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                 Log out
                             </button>
                         </form>
