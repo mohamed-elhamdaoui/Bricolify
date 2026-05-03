@@ -14,8 +14,7 @@ class StoreApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'proposed_price' => ['required', 'numeric', 'min:0', 'max:999999'],
-            'cover_message'  => ['nullable', 'string', 'max:1000'],
+            //
         ];
     }
 }
