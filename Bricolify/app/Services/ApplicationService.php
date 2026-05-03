@@ -2,60 +2,99 @@
 
 namespace App\Services;
 
-use App\DTOs\SubmitApplicationDTO;
 use App\Models\Application;
-use Illuminate\Support\Facades\DB;
-use Exception;
+use App\Models\Notification;
+use App\Models\ServiceRequest;
 
 class ApplicationService
 {
-    public function submitApplication(SubmitApplicationDTO $dto): Application
+    public function submitApplication($serviceRequestId, $workerProfileId, $coverMessage)
     {
-        $exists = Application::where('service_request_id', $dto->serviceRequestId)
-            ->where('worker_profile_id', $dto->workerProfileId)
+        $exists = Application::where('service_request_id', $serviceRequestId)
+            ->where('worker_profile_id', $workerProfileId)
             ->exists();
 
         if ($exists) {
-            throw new Exception('لقد قمت بتقديم عرض لهذا الطلب مسبقاً.');
+            return back()->with('error', 'You have already applied for this request.');
         }
 
-        return Application::create([
-            'service_request_id' => $dto->serviceRequestId,
-            'worker_profile_id'  => $dto->workerProfileId,
-            'proposed_price'     => $dto->proposedPrice,
-            'cover_message'      => $dto->coverMessage,
+        $application = Application::create([
+            'service_request_id' => $serviceRequestId,
+            'worker_profile_id'  => $workerProfileId,
+            'cover_message'      => $coverMessage,
             'status'             => 'pending',
+        ]);
+
+        $serviceRequest = ServiceRequest::find($serviceRequestId);
+        $workerProfile = $application->workerProfile;
+
+        Notification::create([
+            'user_id'         => $serviceRequest->client_id,
+            'type'            => 'New Application',
+            'message'         => $workerProfile->user->name . ' has applied to your request "' . $serviceRequest->title . '".',
+            'notifiable_type' => Application::class,
+            'notifiable_id'   => $application->id,
+            'is_read'         => false,
+        ]);
+
+        return $application;
+    }
+
+    public function acceptApplication(Application $application)
+    {
+        $serviceRequest = $application->serviceRequest;
+
+        if (!$serviceRequest->isPending()) {
+            return back()->with('error', 'This request is no longer available.');
+        }
+
+        $application->update(['status' => 'accepted']);
+
+        Application::where('service_request_id', $serviceRequest->id)
+            ->where('id', '!=', $application->id)
+            ->update(['status' => 'rejected']);
+
+        $serviceRequest->update([
+            'assigned_worker_profile_id' => $application->worker_profile_id,
+            'status'                     => 'accepted',
+        ]);
+
+        Notification::create([
+            'user_id'         => $application->workerProfile->user_id,
+            'type'            => 'Application Accepted',
+            'message'         => 'Congratulations! Your application for "' . $serviceRequest->title . '" has been accepted. You can now start working on the job.',
+            'notifiable_type' => Application::class,
+            'notifiable_id'   => $application->id,
+            'is_read'         => false,
         ]);
     }
 
-    public function acceptApplication(Application $application): void
-    {
-        DB::transaction(function () use ($application) {
-            $serviceRequest = $application->serviceRequest;
-
-            if (!$serviceRequest->isPending()) {
-                throw new Exception('هذا الطلب لم يعد متاحاً.');
-            }
-
-            $application->update(['status' => 'accepted']);
-
-            Application::where('service_request_id', $serviceRequest->id)
-                ->where('id', '!=', $application->id)
-                ->update(['status' => 'rejected']);
-
-            $serviceRequest->update([
-                'assigned_worker_profile_id' => $application->worker_profile_id,
-                'status'                     => 'accepted',
-            ]);
-        });
-    }
-
-    public function cancelApplication(Application $application): void
+    public function cancelApplication(Application $application)
     {
         if (!$application->isPending()) {
-            throw new Exception('يمكنك فقط إلغاء العروض التي لا تزال قيد الانتظار.');
+            return back()->with('error', 'You can only cancel pending applications.');
         }
 
         $application->update(['status' => 'cancelled']);
+    }
+
+    public function refuseApplication(Application $application)
+    {
+        if (!$application->isPending()) {
+            return back()->with('error', 'You can only refuse pending applications.');
+        }
+
+        $application->update(['status' => 'rejected']);
+    }
+
+    public function updateApplication(Application $application, $coverMessage)
+    {
+        if (!$application->isPending()) {
+            return back()->with('error', 'You can only edit pending applications.');
+        }
+
+        $application->update([
+            'cover_message'  => $coverMessage,
+        ]);
     }
 }
