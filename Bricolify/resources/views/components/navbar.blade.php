@@ -32,7 +32,7 @@
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between">
                             <h3 class="font-bold text-slate-900">Notifications</h3>
                             @if($unreadCount > 0)
-                                <form action="{{ route('notifications.readAll') ?? '#' }}" method="POST">
+                                <form action="{{ route('notifications.mark-all-read') }}" method="POST">
                                     @csrf
                                     <button type="submit" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700">Mark all read</button>
                                 </form>
