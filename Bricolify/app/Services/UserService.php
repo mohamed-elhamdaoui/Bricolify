@@ -2,23 +2,31 @@
 
 namespace App\Services;
 
-use App\DTOs\RegisterUserDTO;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function registerUser(RegisterUserDTO $dto): User
+    public function registerUser($name, $email, $password, $role, $phone)
     {
-        return DB::transaction(function () use ($dto) {
-            return User::create([
-                'name'     => $dto->name,
-                'email'    => $dto->email,
-                'password' => Hash::make($dto->password),
-                'role'     => $dto->role,
-                'phone'    => $dto->phone,
-            ]);
-        });
+        $user = User::create([
+            'name'     => $name,
+            'email'    => $email,
+            'password' => Hash::make($password),
+            'role'     => $role,
+            'phone'    => $phone,
+        ]);
+
+        Notification::create([
+            'user_id'         => $user->id,
+            'type'            => 'Welcome to Bricolify',
+            'message'         => 'Welcome ' . $user->name . '! We are glad to have you here. Start by completing your profile.',
+            'notifiable_type' => User::class,
+            'notifiable_id'   => $user->id,
+            'is_read'         => false,
+        ]);
+
+        return $user;
     }
 }
