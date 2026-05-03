@@ -39,6 +39,11 @@ class Notification extends Model
         return $this->morphTo();
     }
 
+    public function scopeUnread($query)
+    {
+        return $query->where('is_read', false);
+    }
+
     // --- Helpers ---
     public function markAsRead(): void
     {
