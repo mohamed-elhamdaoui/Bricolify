@@ -37,11 +37,19 @@
                 Here's your activity overview. Browse open jobs and grow your reputation.
             </p>
         </div>
-        <a href="{{ route('worker.requests.index') }}"
-           class="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-7 py-3 rounded-2xl font-bold shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-1 transition-all">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-            Browse Jobs
-        </a>
+        @if(auth()->user()->isApprovedWorker())
+            <a href="{{ route('worker.requests.index') }}"
+               class="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-7 py-3 rounded-2xl font-bold shadow-[0_4px_14px_0_rgb(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] hover:-translate-y-1 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                Browse Jobs
+            </a>
+        @else
+            <button disabled
+               class="inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-500 px-7 py-3 rounded-2xl font-bold cursor-not-allowed">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                Approval Required
+            </button>
+        @endif
     </div>
 
     {{-- Stats Grid — 3 real stats --}}
@@ -96,27 +104,51 @@
 
     {{-- Quick Actions --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <a href="{{ route('worker.requests.index') }}"
-           class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-indigo-200 hover:shadow-sm transition-all group">
-            <div class="w-11 h-11 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        @if(auth()->user()->isApprovedWorker())
+            <a href="{{ route('worker.requests.index') }}"
+               class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-indigo-200 hover:shadow-sm transition-all group">
+                <div class="w-11 h-11 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <p class="font-extrabold text-slate-900 text-sm">Browse Jobs</p>
+                    <p class="text-xs text-slate-400 font-light">Find matching requests</p>
+                </div>
+            </a>
+        @else
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex items-center gap-4 opacity-60 grayscale cursor-not-allowed">
+                <div class="w-11 h-11 bg-slate-200 text-slate-400 rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <p class="font-extrabold text-slate-900 text-sm">Browse Jobs</p>
+                    <p class="text-xs text-slate-400 font-light italic">Unlock after approval</p>
+                </div>
             </div>
-            <div>
-                <p class="font-extrabold text-slate-900 text-sm">Browse Jobs</p>
-                <p class="text-xs text-slate-400 font-light">Find matching requests</p>
-            </div>
-        </a>
+        @endif
 
-        <a href="{{ route('worker.applications.index') }}"
-           class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-emerald-200 hover:shadow-sm transition-all group">
-            <div class="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+        @if(auth()->user()->isApprovedWorker())
+            <a href="{{ route('worker.applications.index') }}"
+               class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-emerald-200 hover:shadow-sm transition-all group">
+                <div class="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                </div>
+                <div>
+                    <p class="font-extrabold text-slate-900 text-sm">My Applications</p>
+                    <p class="text-xs text-slate-400 font-light">{{ $stats['pendingApps'] ?? 0 }} pending</p>
+                </div>
+            </a>
+        @else
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex items-center gap-4 opacity-60 grayscale cursor-not-allowed">
+                <div class="w-11 h-11 bg-slate-200 text-slate-400 rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <div>
+                    <p class="font-extrabold text-slate-900 text-sm">My Applications</p>
+                    <p class="text-xs text-slate-400 font-light italic">Unlock after approval</p>
+                </div>
             </div>
-            <div>
-                <p class="font-extrabold text-slate-900 text-sm">My Applications</p>
-                <p class="text-xs text-slate-400 font-light">{{ $stats['pendingApps'] ?? 0 }} pending</p>
-            </div>
-        </a>
+        @endif
 
         <a href="{{ route('worker.profile.edit') }}"
            class="bg-white border border-slate-200/60 rounded-2xl p-5 flex items-center gap-4 hover:border-violet-200 hover:shadow-sm transition-all group">
