@@ -7,6 +7,9 @@ use App\Models\Category;
 use App\Services\ServiceRequestService;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Requests\StoreServiceRequestRequest;
+use App\Http\Requests\UpdateServiceRequestRequest;
+
 class ServiceRequestController extends Controller
 {
     public function index()
@@ -54,22 +57,24 @@ class ServiceRequestController extends Controller
         return view('client.requests.show', compact('serviceRequest'));
     }
 
-    public function store(ServiceRequestService $service)
+    public function store(StoreServiceRequestRequest $request, ServiceRequestService $service)
     {
+        $validated = $request->validated();
+
         $service->createRequest(
             Auth::id(),
-            request('category_id'),
-            request('title'),
-            request('description'),
-            request('location'),
-            request('scheduled_date'),
-            request('image')
+            $validated['category_id'],
+            $validated['title'],
+            $validated['description'],
+            $validated['location'],
+            $validated['scheduled_date'],
+            $request->file('image')
         );
 
         return redirect()->route('dashboard')->with('success', 'Service request published successfully.');
     }
 
-    public function update(ServiceRequest $serviceRequest, ServiceRequestService $service)
+    public function update(ServiceRequest $serviceRequest, UpdateServiceRequestRequest $request, ServiceRequestService $service)
     {
         if ($serviceRequest->client_id !== Auth::id()) {
             abort(403);
@@ -79,14 +84,16 @@ class ServiceRequestController extends Controller
             return back()->with('error', 'You can only edit pending requests.');
         }
 
+        $validated = $request->validated();
+
         $service->updateRequest(
             $serviceRequest,
-            request('category_id'),
-            request('title'),
-            request('description'),
-            request('location'),
-            request('scheduled_date'),
-            request('image')
+            $validated['category_id'],
+            $validated['title'],
+            $validated['description'],
+            $validated['location'],
+            $validated['scheduled_date'],
+            $request->file('image')
         );
 
         return redirect()->route('client.requests.show', $serviceRequest)->with('success', 'Service request updated successfully.');
