@@ -6,15 +6,19 @@ use App\Services\WorkerProfileService;
 use App\Models\WorkerProfile;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Requests\StoreWorkerProfileRequest;
+
 class WorkerProfileController extends Controller
 {
-    public function store(WorkerProfileService $profileService)
+    public function store(StoreWorkerProfileRequest $request, WorkerProfileService $profileService)
     {
+        $validated = $request->validated();
+
         $profileService->createProfile(
             Auth::id(),
-            request('experience_years'),
-            request('bio'),
-            request('skill_ids')
+            $validated['experience_years'],
+            $validated['bio'],
+            $validated['skill_ids'] ?? []
         );
 
         return redirect()->route('dashboard')->with('success', 'Profile created successfully. Waiting for admin validation.');
