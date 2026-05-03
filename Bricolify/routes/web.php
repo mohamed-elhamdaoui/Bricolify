@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
     // ==========================================
     // 2. WORKER ROUTES
     // ==========================================
-    Route::middleware('role:worker')->prefix('worker')->name('worker.')->group(function () {
+    Route::middleware(['role:worker', 'active_worker'])->prefix('worker')->name('worker.')->group(function () {
         // Blade View Prototypes
         Route::get('/requests', [MarketplaceController::class, 'index'])->name('requests.index');
         Route::get('/requests/{serviceRequest}', [MarketplaceController::class, 'show'])->name('requests.show');
