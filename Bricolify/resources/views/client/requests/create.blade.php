@@ -68,10 +68,10 @@
 
                 <!-- Image Upload (Optional) -->
                 <div>
-                    <label for="image_url" class="block text-sm font-bold text-slate-900 mb-2">Photo (Optional)</label>
+                    <label for="image" class="block text-sm font-bold text-slate-900 mb-2">Photo (Optional)</label>
                     <p class="text-xs text-slate-500 mb-2 font-light">Upload a photo to help professionals understand the issue better.</p>
-                    <input type="file" id="image_url" name="image_url" accept="image/*" class="w-full px-4 py-3 border @error('image_url') border-rose-300 ring-rose-500/20 @else border-slate-200 @enderror text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                    @error('image_url')
+                    <input type="file" id="image" name="image" accept="image/*" class="w-full px-4 py-3 border @error('image') border-rose-300 ring-rose-500/20 @else border-slate-200 @enderror text-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    @error('image')
                         <p class="mt-2 text-sm text-rose-500 font-medium">{{ $message }}</p>
                     @enderror
                 </div>
