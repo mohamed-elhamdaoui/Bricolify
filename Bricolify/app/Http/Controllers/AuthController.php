@@ -6,6 +6,8 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Requests\RegisterUserRequest;
+
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -33,14 +35,16 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function register(UserService $userService)
+    public function register(RegisterUserRequest $request, UserService $userService)
     {
+        $validated = $request->validated();
+
         $user = $userService->registerUser(
-            request('name'),
-            request('email'),
-            request('password'),
-            request('role'),
-            request('phone')
+            $validated['name'],
+            $validated['email'],
+            $validated['password'],
+            $validated['role'],
+            $validated['phone'] ?? null
         );
 
         Auth::login($user);
