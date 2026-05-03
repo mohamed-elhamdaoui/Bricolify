@@ -3,16 +3,15 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\DTOs\RegisterUserDTO;
 
 class RegisterUserRequest extends FormRequest
 {
-    public function authorize(): bool
+    public function authorize()
     {
-        return true; // We allow anyone to register
+        return true;
     }
 
-    public function rules(): array
+    public function rules()
     {
         return [
             'name'     => ['required', 'string', 'max:255'],
@@ -22,17 +21,5 @@ class RegisterUserRequest extends FormRequest
             'phone'    => ['nullable', 'string', 'max:20'],
             'avatar'   => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ];
-    }
-
-    public function toDTO(): RegisterUserDTO
-    {
-        return new RegisterUserDTO(
-            name: $this->validated('name'),
-            email: $this->validated('email'),
-            password: $this->validated('password'),
-            role: $this->validated('role'),
-            phone: $this->validated('phone'),
-            avatar: $this->file('avatar'),
-        );
     }
 }
