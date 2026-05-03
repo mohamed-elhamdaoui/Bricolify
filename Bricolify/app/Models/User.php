@@ -66,4 +66,9 @@ class User extends Authenticatable
     public function isClient(): bool { return $this->role === 'client'; }
     public function isWorker(): bool { return $this->role === 'worker'; }
     public function isAdmin(): bool  { return $this->role === 'admin'; }
+
+    public function isApprovedWorker(): bool
+    {
+        return $this->isWorker() && $this->workerProfile?->status === 'active';
+    }
 }
