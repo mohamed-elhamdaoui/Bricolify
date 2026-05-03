@@ -8,7 +8,7 @@ use App\Models\ServiceRequest;
 
 class ApplicationService
 {
-    public function submitApplication($serviceRequestId, $workerProfileId, $coverMessage)
+    public function submitApplication($serviceRequestId, $workerProfileId)
     {
         $exists = Application::where('service_request_id', $serviceRequestId)
             ->where('worker_profile_id', $workerProfileId)
@@ -21,7 +21,7 @@ class ApplicationService
         $application = Application::create([
             'service_request_id' => $serviceRequestId,
             'worker_profile_id'  => $workerProfileId,
-            'cover_message'      => $coverMessage,
+            'cover_message'      => null,
             'status'             => 'pending',
         ]);
 
@@ -87,14 +87,14 @@ class ApplicationService
         $application->update(['status' => 'rejected']);
     }
 
-    public function updateApplication(Application $application, $coverMessage)
+    public function updateApplication(Application $application)
     {
         if (!$application->isPending()) {
             return back()->with('error', 'You can only edit pending applications.');
         }
 
         $application->update([
-            'cover_message'  => $coverMessage,
+            'cover_message'  => null,
         ]);
     }
 }
