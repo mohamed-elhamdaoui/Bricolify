@@ -11,12 +11,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::take(4)->get();
 
         $requests = ServiceRequest::with(['category', 'client'])
             ->where('status', 'pending')
             ->latest()
-            ->take(5)
+            ->take(4)
             ->get();
 
         return view('welcome', compact('categories', 'requests'));
