@@ -128,13 +128,16 @@
                     @csrf
                     <div>
                         <label class="block text-sm font-bold text-slate-900 mb-2">Rating</label>
-                        <div class="flex gap-1" id="star-rating-container">
-                            @for($i = 1; $i <= 5; $i++)
-                                <button type="button" data-rating="{{ $i }}" class="star-btn text-3xl text-slate-200 hover:text-amber-300 transition-all duration-200 focus:outline-none">
-                                    ★
-                                </button>
-                            @endfor
-                            <input type="hidden" name="rating" id="rating-input" value="5" required>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex gap-1" id="star-rating-container">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <button type="button" data-rating="{{ $i }}" class="star-btn text-3xl text-slate-200 transition-all duration-200 focus:outline-none">
+                                        ★
+                                    </button>
+                                @endfor
+                                <input type="hidden" name="rating" id="rating-input" value="5" required>
+                            </div>
+                            <span id="rating-label" class="text-sm font-bold text-amber-500">Excellent</span>
                         </div>
                     </div>
                     <div>
@@ -305,12 +308,21 @@
     document.addEventListener('DOMContentLoaded', function() {
         const stars = document.querySelectorAll('.star-btn');
         const ratingInput = document.getElementById('rating-input');
-        let currentRating = 5;
+        const ratingLabel = document.getElementById('rating-label');
+        let selectedRating = 5;
 
-        function updateStars(rating) {
+        const labels = {
+            1: 'Terrible',
+            2: 'Poor',
+            3: 'Average',
+            4: 'Good',
+            5: 'Excellent'
+        };
+
+        function renderStars(rating) {
             stars.forEach(star => {
-                const starRating = parseInt(star.getAttribute('data-rating'));
-                if (starRating <= rating) {
+                const starValue = parseInt(star.getAttribute('data-rating'));
+                if (starValue <= rating) {
                     star.classList.remove('text-slate-200');
                     star.classList.add('text-amber-400', 'scale-110');
                 } else {
@@ -318,26 +330,32 @@
                     star.classList.add('text-slate-200');
                 }
             });
+            ratingLabel.textContent = labels[rating] || '';
         }
 
         stars.forEach(star => {
-            star.addEventListener('mouseover', () => {
-                updateStars(parseInt(star.getAttribute('data-rating')));
+            star.addEventListener('mouseenter', () => {
+                const hoverValue = parseInt(star.getAttribute('data-rating'));
+                renderStars(hoverValue);
             });
 
-            star.addEventListener('mouseout', () => {
-                updateStars(currentRating);
+            star.addEventListener('mouseleave', () => {
+                renderStars(selectedRating);
             });
 
             star.addEventListener('click', () => {
-                currentRating = parseInt(star.getAttribute('data-rating'));
-                ratingInput.value = currentRating;
-                updateStars(currentRating);
+                selectedRating = parseInt(star.getAttribute('data-rating'));
+                ratingInput.value = selectedRating;
+                renderStars(selectedRating);
+                
+                // Add a little pop animation on click
+                star.classList.add('animate-ping');
+                setTimeout(() => star.classList.remove('animate-ping'), 400);
             });
         });
 
-        // Initialize
-        updateStars(currentRating);
+        // Initial render
+        renderStars(selectedRating);
     });
 </script>
 @endpush
