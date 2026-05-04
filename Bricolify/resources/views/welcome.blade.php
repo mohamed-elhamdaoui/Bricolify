@@ -181,8 +181,12 @@
                 <a href="{{ route('workers.index', ['category' => $category->slug]) }}" class="group relative bg-white p-6 rounded-3xl border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="relative z-10">
-                        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                            {!! $category->icon_svg ?? '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>' !!}
+                        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm text-2xl">
+                            @if($category->icon)
+                                {{ $category->icon }}
+                            @else
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            @endif
                         </div>
                         <h3 class="text-lg font-bold text-slate-900 mb-1">{{ $category->name }}</h3>
                         <p class="text-sm text-slate-500 mb-6 font-light">{{ $category->description ?? 'Expert services available' }}</p>
@@ -309,7 +313,7 @@
                     </div>
                 </div>
 
-                <a href="" class="inline-flex justify-center items-center bg-white text-slate-900 text-base font-bold px-8 py-4 rounded-2xl hover:bg-slate-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:-translate-y-1">
+                <a href="{{ route('register.view') }}" class="inline-flex justify-center items-center bg-white text-slate-900 text-base font-bold px-8 py-4 rounded-2xl hover:bg-slate-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:-translate-y-1">
                     Create Worker Account
                 </a>
             </div>
@@ -421,7 +425,7 @@
                         Join thousands of users who have modernized how they handle home maintenance. Create a free account today.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="" class="bg-white text-slate-900 text-base font-bold px-10 py-4 rounded-2xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+                        <a href="{{ route('register.view') }}" class="bg-white text-slate-900 text-base font-bold px-10 py-4 rounded-2xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.15)]">
                             Sign Up Now
                         </a>
                     </div>
